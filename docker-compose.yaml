@@ -1,0 +1,89 @@
+version: '3.8'
+
+services:
+    transmission:
+      image: lscr.io/linuxserver/transmission:latest
+      container_name: transmission
+      environment:
+        - PUID=1000
+        - PGID=1000
+        - TZ=Europe/Madrid
+      volumes:
+        - .data/transmission/config:/config
+        - ./media/downloads:/downloads
+      ports:
+        - 9091:9091
+        - 63456:63456
+        - 63456:63456/udp
+      restart: unless-stopped
+
+    sonarr:
+      image: lscr.io/linuxserver/sonarr:latest
+      container_name: sonarr
+      environment:
+        - PUID=1000
+        - PGID=1000
+        - TZ=Europe/Madrid
+      volumes:
+        - .data/sonarr/config:/config
+        - ./media/downloads:/downloads 
+      ports:
+        - 8989:8989
+      restart: unless-stopped
+
+    radarr:
+      image: lscr.io/linuxserver/radarr:latest
+      container_name: radarr
+      environment:
+        - PUID=1000
+        - PGID=1000
+        - TZ=Europe/Madrid
+      volumes:
+        - .data/radarr/config:/config
+        - ./media/downloads:/downloads
+      ports:
+        - 7878:7878
+      restart: unless-stopped
+
+    bazarr:
+      image: lscr.io/linuxserver/bazarr:latest
+      container_name: bazarr
+      environment:
+        - PUID=1000
+        - PGID=1000
+        - TZ=Europe/Madrid
+      volumes:
+        - .data/bazarr/config:/config
+        - ./media/downloads:/downloads
+      ports:
+        - 6767:6767
+      restart: unless-stopped
+  
+    prowlarr:
+      image: lscr.io/linuxserver/prowlarr:latest
+      container_name: prowlarr
+      environment:
+        - PUID=1000
+        - PGID=1000
+        - TZ=Europe/Madrid
+      volumes:
+        - .data/prowlar/config:/config
+      ports:
+        - 9699:9696
+      restart: unless-stopped
+
+    jellyfin:
+      image: lscr.io/linuxserver/jellyfin:latest
+      container_name: jellyfin
+      environment:
+        - PUID=1000
+        - PGID=1000
+        - TZ=Europe/Madrid
+      volumes:
+        - .data/jellyfin/config:/config
+        - ./media/tvseries:/data/tvshows
+        - ./media/movies:/data/movies
+      ports:
+        - 8096:8096
+      restart: unless-stopped
+
